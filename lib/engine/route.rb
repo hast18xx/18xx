@@ -4,37 +4,36 @@ require_relative 'game_error'
 
 module Engine
   class Route
-    attr_reader :hexes, :paths, :phase, :train
+    attr_reader :connections, :phase, :train
 
     def initialize(phase, train)
-      @hexes = []
-      @paths = []
+      @connections = []
       @phase = phase
       @train = train
     end
 
     def reset!
       @hexes.clear
-      @paths.clear
     end
 
-    def add_hex(hex)
-      if (prev = @hexes.last) && !hex.connected?(prev)
-        raise GameError, "Cannot use #{hex.name} in route because it is not connected"
-      end
+    def add_connection(connection)
+      puts "** adding connection #{connection}"
+      #if (prev = @hexes.last) && !hex.connected?(prev)
+      #  raise GameError, "Cannot use #{hex.name} in route because it is not connected"
+      #end
 
-      @hexes << hex
-      return unless prev
+      @connections << connection
+      #return unless prev
 
-      @paths.concat(hex.connections(prev, direct: true))
+      ## TODO @paths.concat(hex.connections(prev, direct: true))
     end
 
     def paths_for(paths)
-      @paths & paths
+      @connections.flat_map(&:paths) & paths
     end
 
     def stops
-      @paths.map(&:stop).compact.uniq
+      @connections.flat_map(&:stop).uniq
     end
 
     def revenue

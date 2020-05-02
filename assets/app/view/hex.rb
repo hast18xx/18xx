@@ -71,7 +71,9 @@ module View
 
     def on_hex_click(event)
       if @selected_route
-        @selected_route.add_hex(@hex)
+        @hex.connections.values.flatten.each do |connection|
+          @selected_route.add_connection(connection)
+        end
         store(:selected_route, @selected_route)
         return
       end

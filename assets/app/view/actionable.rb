@@ -23,10 +23,10 @@ module View
       end
 
       store(:game, game)
-    rescue StandardError => e
-      store(:game, @game.clone(@game.actions), skip: true)
-      store(:flash_opts, e.message)
-      e.backtrace.each { |line| puts line }
+    #rescue StandardError => e
+    #  store(:game, @game.clone(@game.actions), skip: true)
+    #  store(:flash_opts, e.message)
+    #  e.backtrace.each { |line| puts line }
     end
 
     def rollback
